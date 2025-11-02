@@ -30,18 +30,23 @@ public class Order implements Serializable{
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
 	
+	// Formata o horario em padrao ISO 8601 e GMT 
 	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss'Z'", timezone="GMT")
 	private Instant moment;
 	
+	// Armazena o codigo numerico do status (vindo do Enum)
 	private Integer orderStatus;
 	
+	// Muitos pedidos para um unico usuario (N:1)
 	@ManyToOne
 	@JoinColumn(name="client_id")
 	private User client;
 	
+	// Um pedido pode ter varios itens (1:N)
 	@OneToMany(mappedBy = "id.order")
 	private Set<OrderItem> items = new HashSet<>();
 	
+	// Um pedido pode ter apenas um pagamento (1:1)
 	@OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
 	private Payment payment;
 	
@@ -52,7 +57,7 @@ public class Order implements Serializable{
 		super();
 		this.id = id;
 		this.moment = moment;
-		setOrderStatus(orderStatus);
+		setOrderStatus(orderStatus); // Usa o metodo que converte Enum para codigo
 		this.client = client;
 	}
 
@@ -71,11 +76,13 @@ public class Order implements Serializable{
 	public void setMoment(Instant moment) {
 		this.moment = moment;
 	}
-
+	
+	// Converte o codigo numerico em Enum
 	public OrderStatus getOrderStatus() {
 		return OrderStatus.valueOf(orderStatus);
 	}
-
+	
+	// Converte Enum em codigo numerico
 	public void setOrderStatus(OrderStatus orderStatus) {
 		if(orderStatus != null) {
 			this.orderStatus = orderStatus.getCode();
@@ -102,6 +109,7 @@ public class Order implements Serializable{
 		return items;
 	}
 	
+	// Calcula total do pedido somando o subtotal de cada item
 	public Double getTotal() {
 		double sum = 0.0;
 		for (OrderItem x : items) {
