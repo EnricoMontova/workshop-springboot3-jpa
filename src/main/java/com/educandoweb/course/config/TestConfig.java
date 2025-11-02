@@ -21,8 +21,8 @@ import com.educandoweb.course.repositories.OrderRepository;
 import com.educandoweb.course.repositories.ProductRepository;
 import com.educandoweb.course.repositories.UserRepository;
 
-@Configuration
-@Profile("test")
+@Configuration // Indica que essa classe é uma classe de configuração do Spring
+@Profile("test") // Define que essa configuração só será usada no perfil "test"
 public class TestConfig implements CommandLineRunner{
 	
 	@Autowired
