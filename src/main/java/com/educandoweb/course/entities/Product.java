@@ -30,18 +30,23 @@ public class Product implements Serializable {
 	private String description;
 	private Double price;
 	private String imgUrl;
-
+	
+	// Um produto pode pertencer a diversas categorias (N:N)
 	@ManyToMany
-	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@JoinTable(
+			name = "tb_product_category", // Tabela intermediaria
+			joinColumns = @JoinColumn(name = "product_id"), // Coluna que referencia produto
+			inverseJoinColumns = @JoinColumn(name = "category_id") // Coluna que referencia categoria
+			)
 	private Set<Category> categories = new HashSet<>();
 	
+	// Um produto pode estar presente em varios pedidos (1:N)
 	@OneToMany(mappedBy = "id.product")
 	private Set<OrderItem> items = new HashSet<>();
 	
 	public Product() {
-
 	}
-
+	
 	public Product(Integer id, String name, String description, Double price, String imgUrl) {
 		super();
 		this.id = id;
@@ -95,7 +100,8 @@ public class Product implements Serializable {
 		return categories;
 	}
 	
-	@JsonIgnore
+	// Retorna todos os pedidos que contêm esse produto
+	@JsonIgnore // Evita loop de referencia circular (Produto > Pedido > Produto > ...)
 	public Set<Order> getOrders() {
 		Set<Order> set = new HashSet<>();
 		for (OrderItem x : items) {
