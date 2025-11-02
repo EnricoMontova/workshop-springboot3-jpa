@@ -19,6 +19,7 @@ public class ProductResource {
 	@Autowired
 	private ProductService service;
 	
+	// Retorna todos os produtos (GET /products)
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll() {
 		List<Product> list = service.findAll();
@@ -26,6 +27,7 @@ public class ProductResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	// Retorna um produto específico (GET /products/{id})
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		Product obj = service.findById(id);

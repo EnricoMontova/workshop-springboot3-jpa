@@ -25,6 +25,7 @@ public class UserResource {
 	@Autowired
 	private UserService service;
 	
+	// Retorna todos os usuários (GET /users)
 	@GetMapping
 	public ResponseEntity<List<User>> findAll() {
 		List<User> list = service.findAll();
@@ -32,26 +33,35 @@ public class UserResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	// Retorna um usuário específico pelo ID (GET /users/{id})
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<User> findById(@PathVariable Long id) {
 		User obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	// Cria um novo usuário (POST /users)
 	@PostMapping
 	public ResponseEntity<User> insert(@RequestBody User obj){
 		obj = service.insert(obj);
+		// Cria a URI do novo recurso criado (ex: /users/5)
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
 				.buildAndExpand(obj.getId()).toUri();
+		
+		// Retorna status 201 (Created) com o corpo do objeto
 		return ResponseEntity.created(uri).body(obj);
 	}
 	
+	// Deleta um usuário existente (DELETE /users/{id})
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
 		service.delete(id);
+		
+		// Retorna 204 (No Content), indicando que a operação foi bem-sucedida
 		return ResponseEntity.noContent().build();
 	}
 	
+	// Atualiza dados de um usuário (PUT /users/{id})
 	@PutMapping(value = "/{id}")
 	public ResponseEntity<User> update(@PathVariable Long id, @RequestBody User obj) {
 		obj = service.update(id, obj);

@@ -17,8 +17,9 @@ import com.educandoweb.course.services.OrderService;
 public class OrderResource {
 	
 	@Autowired
-	private OrderService service;
+	private OrderService service; // Conecta com a camada de serviços de pedidos	
 	
+	// Retorna todos os pedidos (GET /orders)
 	@GetMapping
 	public ResponseEntity<List<Order>> findAll() {
 		List<Order> list = service.findAll();
@@ -26,6 +27,7 @@ public class OrderResource {
 		return ResponseEntity.ok().body(list);
 	}
 	
+	// Retorna um pedido específico (GET /orders/{id})
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Order> findById(@PathVariable Long id) {
 		Order obj = service.findById(id);
