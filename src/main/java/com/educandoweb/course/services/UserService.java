@@ -33,8 +33,13 @@ public class UserService {
 	}
 	
 	// Deleta um usuário com base no ID
-	public void delete(Long id) {
-		repository.deleteById(id);
+	public void delete(Long id){
+	    try {
+	        if(!repository.existsById(id)) throw new ResourceNotFoundException(id);
+	        repository.deleteById(id);
+	    }catch (ResourceNotFoundException e){
+	        throw new ResourceNotFoundException(id);
+	    }
 	}
 	
 	// Atualiza os dados de um usuário já existente
