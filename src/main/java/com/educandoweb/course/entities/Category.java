@@ -25,8 +25,9 @@ public class Category implements Serializable {
 	private Long id;
 	private String name;
 	
-	@JsonIgnore
-	@ManyToMany(mappedBy = "categories")
+	// Relação inversa com Product (muitos produtos podem ter a mesma categoria)
+	@JsonIgnore // evita recursão infinita
+	@ManyToMany(mappedBy = "categories") // mapeia o lado inverso da relação com Product
 	private Set<Product> products = new HashSet<>();
 	
 	public Category() {
