@@ -15,10 +15,12 @@ public class ProductService {
 	@Autowired
 	private ProductRepository repository;
 	
+	// Retorna todos os produtos do banco
 	public List<Product> findAll() {
 		return repository.findAll();
 	}
 	
+	// Retorna um produto pelo seu ID
 	public Product findById(Long id) {
 		Optional<Product> obj = repository.findById(id);
 		return obj.get();
