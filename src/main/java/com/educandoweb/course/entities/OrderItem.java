@@ -16,6 +16,7 @@ public class OrderItem implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
+	// Classe auxiliar que representa a chave composta (order_id + product_id)
 	@EmbeddedId
 	private OrderItemPK id = new OrderItemPK();
 	
@@ -34,6 +35,7 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 	
+	// Evita recursão infinita e retorna o pedido do item
 	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
@@ -43,6 +45,7 @@ public class OrderItem implements Serializable {
 		id.setOrder(order);
 	}
 	
+	// Retorna o produto associado ao item
 	public Product getProduct() {
 		return id.getProduct();
 	}
@@ -67,6 +70,7 @@ public class OrderItem implements Serializable {
 		this.price = price;
 	}
 	
+	// Calcula o subtotal do item
 	public Double getSubTotal() {
 		return price * quantity;
 	}
