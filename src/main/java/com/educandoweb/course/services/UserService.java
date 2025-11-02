@@ -10,6 +10,8 @@ import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
 public class UserService {
 	
@@ -45,9 +47,13 @@ public class UserService {
 	// Atualiza os dados de um usuário já existente
 	public User update(Long id, User obj) {
 		// O getReferenceById busca uma referência do objeto, sem precisar ir ao banco ainda
-		User entity  = repository.getReferenceById(id);
-		updateData(entity, obj);
-		return repository.save(entity);
+		try {
+			User entity  = repository.getReferenceById(id);
+			updateData(entity, obj);
+			return repository.save(entity);
+		} catch(EntityNotFoundException e) {
+			throw new  ResourceNotFoundException(id);
+		}
 	}
 	
 	// Método auxiliar usado para atualizar apenas os campos necessários
