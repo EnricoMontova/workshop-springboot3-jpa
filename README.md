@@ -28,8 +28,10 @@ Cada camada tem uma função clara dentro do sistema, garantindo **organização
 - **Linguagem:**  Java 17
 - **Framework:** Spring Boot 3
 - **ORM** JPA / Hibernate 
-- **Banco de Dados:** H2 (modo de teste e memória) 
-- **Ferramentas:** Maven, Postman, IntelliJ / VSCode 
+- **Banco de Dados (modo de teste e memória):** H2 Database
+- **Banco de Dados (produção):** PostgreSQL
+- **Ferramentas:** Maven, Postman
+- **Servidor de aplicação:** Apache Tomcat
 - **Controle de versão:** Git e GitHub
 
 ---
