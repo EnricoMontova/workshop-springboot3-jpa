@@ -23,11 +23,12 @@ public class Payment implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Long id;
-	private Instant moment;
+	private Instant moment; // data e hora do pagamento
 	
+	// Cada pagamento está vinculado a um pedido (1:1)
 	@JsonIgnore
 	@OneToOne
-	@MapsId
+	@MapsId // compartilha o mesmo ID do pedido
 	private Order order;
 	
 	public Payment() {
@@ -37,7 +38,7 @@ public class Payment implements Serializable {
 	public Payment(Long id, Instant moment, Order order) {
 		super();
 		this.id = id;
-		this.moment = moment;
+		this.moment = moment; 
 		this.order = order;
 	}
 
